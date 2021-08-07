@@ -1,47 +1,38 @@
-console.log(input.length)
-
 // Qustion One
-const rowtValue = 128
-const colVaule = 8
+let max = 1028;
+let min = 0;
+let runProgram = input.forEach((spot) => {
+  let rowRangeMin = 0;
+  let rowRangeMax = 127;
 
-let finalRowValue;
-let finalColVaule;
+  // 51
+  // 38
+  let colRangeMin = 0;
+  let colRangeMax = 7;
 
-const rowRange = [0, 128]
-const colRange = [0, 8]
+  for (letter of spot) {
+    if (letter === "F") {
+      rowRangeMax = Math.floor(rowRangeMin + rowRangeMax / 2);
+    }
+    if (letter === "B") {
+      if (rowRangeMin != 0) {
+        rowRangeMin = Math.ceil(rowRangeMin + rowRangeMax / 2);
+      }
+  }
 
-console.log(rowRange[1] / 2)
+    if (letter === "R") {
+      colRangeMax = Math.ceil(colRangeMin + colRangeMax / 2);
+    }
+    if (letter === "L") {
+      colRangeMin = Math.floor(colRangeMin + colRangeMax / 2);
+    }
+  }
 
-
-
-console.log(
-    input.forEach((spot) => {
-        const spotArray = spot.split("")
-        // Breaks up the array to small array that i can use later to find the dig spot eaiser.
-        const rowLetters = spotArray.filter((letter) => {
-            return letter.includes('F') ||
-                letter.includes('B');
-        })
-
-    // Remember that rowLetters and ccolLetters are 2D arrays. SO make for loop that will go though each one and find the dig spot of each of them.
-
-        const colLetters = spotArray.filter((letter) => {
-            return letter.includes('L') ||
-                letter.includes('R');
-        })
-
-        // Finds the row the dig spot is at.
-        for (let i = 0; i < rowLetters.length; i++) {
-            if (rowLetters[i] === 'F') {
-                // Updates the range that the dig site can be
-                rowRange[1] = Math.floor(rowRange[1] / 2)
-                return rowRange;
-            } else if (rowLetters[i] === 'B') {
-                // Updates the range that the dig site can be
-                rowRange[0] = Math.ceil(rowRange[0] / 2)
-                return rowRange;
-            }
-        }
-    }))
-
-    console.log(rowRange)
+  if (rowRangeMax > max) {
+    max = rowRangeMax;
+  }
+  if (rowRangeMin < min) {
+    min = rowRangeMin;
+  }
+});
+console.log(`Min: ${min} Max: ${max}`);
